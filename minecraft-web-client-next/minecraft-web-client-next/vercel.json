@@ -1,6 +1,28 @@
 {
-    "github": {
-        "enabled": false,
-        "silent": false
+  "$schema": "https://openapi.vercel.sh/vercel.json",
+  "framework": null,
+  "installCommand": "corepack enable && corepack prepare pnpm@10.32.1 --activate && pnpm install",
+  "buildCommand": "pnpm run build",
+  "outputDirectory": "dist",
+  "rewrites": [
+    {
+      "source": "/(.*)",
+      "destination": "/index.html"
     }
+  ],
+  "headers": [
+    {
+      "source": "/(.*)",
+      "headers": [
+        {
+          "key": "Cross-Origin-Opener-Policy",
+          "value": "same-origin"
+        },
+        {
+          "key": "Cross-Origin-Embedder-Policy",
+          "value": "require-corp"
+        }
+      ]
+    }
+  ]
 }
