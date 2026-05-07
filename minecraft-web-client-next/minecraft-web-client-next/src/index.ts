@@ -465,6 +465,11 @@ export async function connect (connectOptions: ConnectOptions) {
         )
       }
 
+      // Default day/night cycle on when the world never saved doDaylightCycle (flying-squid skips advancing time if the rule is false).
+      if (localServer.gamerules?.doDaylightCycle === undefined) {
+        localServer.gamerules.doDaylightCycle = true
+      }
+
       localServer.on('newPlayer', (player) => {
         player.on('loadingStatus', (newStatus) => {
           progress.setMessage(newStatus)

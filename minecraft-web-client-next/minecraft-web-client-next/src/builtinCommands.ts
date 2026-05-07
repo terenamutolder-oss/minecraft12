@@ -92,7 +92,7 @@ const SET_TIME_ALIASES: Record<string, number> = {
 }
 
 const setTimeFromAlias = (argRaw: string): number | undefined => {
-  const arg = argRaw.trim().toLowerCase()
+  const arg = argRaw.trim().toLowerCase().replace(/\s+/g, ' ')
   if (!arg) return undefined
   if (/^\d+$/.test(arg)) {
     return parseInt(arg, 10) % 24000
@@ -162,17 +162,17 @@ export const commands: Array<{
     command: ['/set'],
     invoke (args) {
       if (args[0]?.toLowerCase() !== 'time') {
-        writeText('Usage: /set time <morning | day | afternoon | night | midnight | 0-24000>')
+        writeText('Usage: /set time <morning | day | afternoon | night | mid night | 0–24000>')
         return
       }
       const rest = args.slice(1).join(' ').trim()
       if (!rest) {
-        writeText('Usage: /set time <morning | day | afternoon | night | midnight | 0-24000>')
+        writeText('Usage: /set time <morning | day | afternoon | night | mid night | 0–24000>')
         return
       }
       const ticks = setTimeFromAlias(rest)
       if (ticks === undefined) {
-        writeText(`Unknown time “${rest}”. Try: morning, day, afternoon, night, midnight, or a number.`)
+        writeText(`Unknown time “${rest}”. Try: morning, day, afternoon, night, mid night (or midnight), or a number.`)
         return
       }
       bot.chat(`/time set ${ticks}`)
