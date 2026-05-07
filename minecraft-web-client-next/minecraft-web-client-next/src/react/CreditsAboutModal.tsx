@@ -28,7 +28,7 @@ export default () => {
             <li className={styles.listItem}>- <span><a className={styles.link} href="https://viaversion.com/" target="_blank" rel="noopener noreferrer">[ViaVersion]</a></span> for providing reliable sound id mappings</li>
             <li className={styles.listItem}>- <span><a className={styles.link} href="https://github.com/BlueMap-Minecraft/BlueMap" target="_blank" rel="noopener noreferrer">[Bluemap]</a></span> for providing block entity models like chest</li>
             <li className={styles.listItem}>- <span><a className={styles.link} href="https://github.com/misode/deepslate" target="_blank" rel="noopener noreferrer">[Deepslate]</a></span> for rendering 3d blocks in GUI (inventory)</li>
-            <li className={styles.listItem}>- <span><a className={styles.link} href="https://www.npmjs.com/package/skinview3d" target="_blank" rel="noopener noreferrer">[skinview3d]</a></span> for rendering skins & player geometry</li>
+            <li className={styles.listItem}>- <span><a className={styles.link} href="https://www.npmjs.com/package/skinview3d" target="_blank" rel="noopener noreferrer">[skinview3d]</a></span> avatar &amp; skin library for 3D player models in-game</li>
             <li className={styles.listItem}>- <span><a className={styles.link} href="https://github.com/atxi/Polymer" target="_blank" rel="noopener noreferrer">[Polymer]</a></span> (c++ project) for providing fast & accurate server light implementation</li>
           </ul>
 

@@ -23,9 +23,9 @@
           <video class="initial-loader-video" src="./loading-screen.mp4" poster="./loading-bg.jpg" autoplay muted loop playsinline webkit-playsinline disablepictureinpicture preload="auto" style="position:absolute;inset:0;width:100%;height:100%;object-fit:cover;"></video>
         </div>
         <div style="position:fixed;inset:0;z-index:1;background-color:rgba(0,0,0,0.45);pointer-events:none;"></div>
-        <div style="position:relative;z-index:2;max-width:96vw;">
+        <div style="position:relative;z-index:2;max-width:96vw;display:flex;flex-direction:column;align-items:center;">
+        <img src="./loader-avatar.svg" width="96" height="96" alt="" class="initial-loader-avatar" style="width:96px;height:96px;image-rendering:pixelated;image-rendering:crisp-edges;margin-bottom:14px;border-radius:6px;box-shadow:0 6px 18px rgba(0,0,0,0.45);" />
         <div style="font-size: calc(var(--font-size) * 1.8);color: lightgray;" class="title">Loading...</div>
-        <div style="font-size: var(--font-size);color: rgb(176, 176, 176);margin-top: 3px;text-align: center" class="subtitle">A true Minecraft client in your browser!</div>
         <div style="font-size: calc(var(--font-size) * 0.6);color: rgb(150, 150, 150);margin-top: 3px;text-align: center;white-space: pre-line;" class="advanced-info"></div>
         <div style="font-size: calc(var(--font-size) * 0.6);color: rgb(255, 100, 100);margin-top: 10px;text-align: center;display: none;" class="ios-warning">Only iOS 15+ is supported due to performance optimizations</div>
         </div>
@@ -57,8 +57,7 @@
             if (document.querySelector('.initial-loader') && document.querySelector('.initial-loader').querySelector('.title').textContent !== 'Error') {
               document.querySelector('.initial-loader').querySelector('.title').textContent = 'Error'
               const [errorMessage, ...errorStack] = message.split('\n')
-              document.querySelector('.initial-loader').querySelector('.subtitle').textContent = errorMessage
-              document.querySelector('.initial-loader').querySelector('.advanced-info').textContent = errorStack.join('\n')
+              document.querySelector('.initial-loader').querySelector('.advanced-info').textContent = [errorMessage, ...errorStack].filter(Boolean).join('\n')
 
               // Show iOS warning if applicable
               const iosVersion = getIOSVersion();

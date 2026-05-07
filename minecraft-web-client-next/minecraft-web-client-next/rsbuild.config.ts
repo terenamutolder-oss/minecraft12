@@ -232,6 +232,7 @@ const appConfig = defineConfig({
                     fs.copyFileSync('./assets/config.html', './dist/config.html')
                     fs.copyFileSync('./assets/debug-inputs.html', './dist/debug-inputs.html')
                     fs.copyFileSync('./assets/loading-bg.jpg', './dist/loading-bg.jpg')
+                    fs.copyFileSync('./assets/loader-avatar.svg', './dist/loader-avatar.svg')
                     if (fs.existsSync('./assets/loading-screen.mp4')) {
                         fs.copyFileSync('./assets/loading-screen.mp4', './dist/loading-screen.mp4')
                     }
