@@ -58,14 +58,19 @@ export default ({ initialTooltip, alwaysTooltip, ...args }: Props) => {
       style={{
         ...floatingStyles,
         background: 'rgba(0, 0, 0, 0.3)',
-        fontSize: 8,
+        // Compensate for #ui-root transform: scale(var(--guiScale)) so hints stay small on screen
+        fontSize: 'calc(7px / var(--guiScale, 1))',
+        lineHeight: 1.25,
+        maxWidth: 'min(40vw, calc(120px / var(--guiScale, 1)))',
         pointerEvents: 'none',
         userSelect: 'text',
         padding: '2px 4px',
         opacity: showTooltips ? 1 : 0,
         transition: 'opacity 0.3s ease-in-out',
         textShadow: '1px 1px 2px BLACK',
-        zIndex: 11
+        zIndex: 11,
+        whiteSpace: 'normal',
+        textAlign: 'center',
       }}
     >
       {alwaysTooltip || initialTooltip.content}

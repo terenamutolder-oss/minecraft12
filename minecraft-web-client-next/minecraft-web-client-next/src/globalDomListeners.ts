@@ -3,6 +3,18 @@ import { isGameActive, activeModalStack } from './globalState'
 import { options } from './optionsStorage'
 import { isInRealGameSession } from './utils'
 
+// Reduce accidental tab closes when using Ctrl/Cmd as a game modifier (e.g. with W).
+// May not override the browser on all platforms; still helps where preventDefault is honored.
+window.addEventListener(
+  'keydown',
+  (e) => {
+    if (!(e.ctrlKey || e.metaKey) || e.code !== 'KeyW' || e.repeat) return
+    e.preventDefault()
+    e.stopPropagation()
+  },
+  { capture: true }
+)
+
 window.addEventListener('unload', (e) => {
   if (!window.justReloaded) {
     sessionStorage.justReloaded = false

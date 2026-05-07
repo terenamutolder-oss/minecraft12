@@ -5,6 +5,7 @@ import defaultLocalServerOptions from '../defaultLocalServerOptions'
 import { mkdirRecursive, uniqueFileNameFromWorldName } from '../browserfs'
 import supportedVersions, { FORBIDDEN_VERSION_THRESHOLD_SINGLEPLAYER, versionToNumber } from '../supportedVersions.mjs'
 import { getServerPlugin } from '../clientMods'
+import { userSeedToFlyingSquidNumber } from '../minecraftSeed'
 import CreateWorld, { WorldCustomize, creatingWorldState } from './CreateWorld'
 import { getWorldsPath } from './SingleplayerProvider'
 import { useIsModalActive } from './utilsApp'
@@ -32,7 +33,8 @@ export default () => {
       }}
       createClick={async () => {
         // create new world
-        const { title, type, version, gameMode, plugins } = creatingWorldState
+        const { title, seedText, type, version, gameMode, plugins } = creatingWorldState
+        const seed = userSeedToFlyingSquidNumber(seedText)
         // todo display path in ui + disable if exist
         const savePath = await uniqueFileNameFromWorldName(title, getWorldsPath())
         await mkdirRecursive(savePath)
@@ -43,7 +45,8 @@ export default () => {
             levelName: title,
             version,
             generation: {
-              name: type
+              name: type,
+              ...(seed !== undefined ? { options: { seed } } : {})
             },
             'worldFolder': savePath,
             gameMode: gameMode === 'survival' ? 0 : 1,

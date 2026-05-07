@@ -152,7 +152,7 @@ const MainMenuBase = ({
         <ButtonWithTooltip
           initialTooltip={{
             content: 'Connect to Java servers!',
-            placement: 'top',
+            placement: 'bottom',
           }}
           {...connectToServerLongPress}
           data-test-id='servers-screen-button'
@@ -178,7 +178,7 @@ const MainMenuBase = ({
             disabled={!mapsProvider}
             // className={styles['maps-provider']}
             icon={pixelartIcons.map}
-            initialTooltip={{ content: 'Explore maps to play from provider!', placement: 'top-start' }}
+            initialTooltip={{ content: 'Explore maps to play from provider!', placement: 'bottom-end' }}
             onClick={() => mapsProvider && openURL(httpsRegex.test(mapsProvider) ? mapsProvider : 'https://' + mapsProvider, false)}
           />
 
@@ -202,7 +202,7 @@ const MainMenuBase = ({
             style={{ flex: 1 }}
             initialTooltip={{
               content: 'Joystick, touch buttons, movement type, and “always show” touch UI',
-              placement: 'top',
+              placement: 'bottom',
             }}
             onClick={() => openOptionsMenu('controls')}
           >
@@ -216,7 +216,7 @@ const MainMenuBase = ({
                 : isMobile()
                   ? 'Auto: on-screen controls for this phone or tablet (detected)'
                   : 'Turn on to show on-screen controls on this device',
-              placement: 'top',
+              placement: 'bottom',
             }}
             onClick={() => {
               options.alwaysShowMobileControls = !options.alwaysShowMobileControls

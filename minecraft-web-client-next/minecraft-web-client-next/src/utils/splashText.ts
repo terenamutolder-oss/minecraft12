@@ -1,6 +1,6 @@
 const MAX_WORDS = 5
 const HTTPS_REGEX = /^https?:\/\//
-const TIMEOUT_MS = 5000
+const TIMEOUT_MS = 2500
 const SPLASH_CACHE_KEY = 'minecraft_splash_text_cache'
 const SPLASH_URL_KEY = 'minecraft_splash_url'
 

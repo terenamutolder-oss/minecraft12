@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import { proxy, useSnapshot } from 'valtio'
 import { filesize } from 'filesize'
 import { getAvailableServerPlugins } from '../clientMods'
@@ -16,16 +16,19 @@ const worldTypes = ['default', 'flat', 'empty', 'nether', 'all_the_blocks']
 
 export const creatingWorldState = proxy({
   title: '',
+  seedText: '',
   type: worldTypes[0],
   gameMode: 'creative',
   version: '',
   plugins: [] as string[]
 })
 
+const seedMono: React.CSSProperties = { fontFamily: 'mojangles, minecraft, monospace' }
+
 const CreateWorldBase = ({ cancelClick, createClick, customizeClick, versions, defaultVersion }) => {
   const [quota, setQuota] = useState('')
 
-  const { title, type, version, gameMode, plugins } = useSnapshot(creatingWorldState)
+  const { title, seedText, type, version, gameMode, plugins } = useSnapshot(creatingWorldState)
   useEffect(() => {
     creatingWorldState.version = defaultVersion
     void navigator.storage?.estimate?.().then(({ quota, usage }) => {
@@ -58,6 +61,43 @@ const CreateWorldBase = ({ cancelClick, createClick, customizeClick, versions, d
       />
       <button type='submit' style={{ visibility: 'hidden' }} />
     </form>
+    <div style={{ marginTop: 6 }}>
+      <div className='muted' style={{ fontSize: 9, marginBottom: 4 }}>World seed</div>
+      <Input
+        value={seedText}
+        onChange={({ target: { value } }) => {
+          creatingWorldState.seedText = value
+        }}
+        placeholder='Type a seed, or leave blank for random'
+        rootStyles={{ marginTop: 0 }}
+      />
+      <div className='muted' style={{ fontSize: 8, marginTop: 3 }}>
+        Enter numbers or text for a specific world. Leave empty and the game picks a random seed.
+      </div>
+    </div>
+    <details className='muted' style={{ fontSize: 9, marginTop: 6, maxWidth: 420 }}>
+      <summary style={{ cursor: 'pointer', userSelect: 'none' }}>About world seeds</summary>
+      <div style={{ marginTop: 6, lineHeight: 1.4 }}>
+        <p style={{ margin: '0 0 6px' }}>
+          You can choose a seed or leave the field blank for a random one. Seeds are special codes that generate a world. When you create a new world, the game uses a seed to decide where everything goes: mountains, villages, caves, oceans, forests, deserts, strongholds, ancient cities, and more.
+        </p>
+        <p style={{ margin: '0 0 4px' }}>A seed can be:</p>
+        <ul style={{ margin: '0 0 6px', paddingLeft: 18 }}>
+          <li>Numbers — e.g. <span style={seedMono}>123456789</span></li>
+          <li>Words — e.g. <span style={seedMono}>cool world</span></li>
+          <li>A mix — e.g. <span style={seedMono}>Marsel123</span></li>
+        </ul>
+        <p style={{ margin: '0 0 6px' }}>
+          If two players use the same seed, same Minecraft version, and same world settings, they usually get the same world.
+        </p>
+        <p style={{ margin: '0 0 6px' }}>
+          Example: seed <span style={seedMono}>8675309</span> might create a world with a village near spawn, mountains nearby, or a desert temple, depending on the Minecraft version.
+        </p>
+        <p style={{ margin: 0 }}>
+          In-game you can see the numeric seed with the chat command <span style={seedMono}>/seed</span>. Text seeds here are converted to a number for this client; use a numeric seed if you need an exact match with Java Edition.
+        </p>
+      </div>
+    </details>
     <div style={{ display: 'flex' }}>
       <Button onClick={() => {
         const index = worldTypes.indexOf(type)

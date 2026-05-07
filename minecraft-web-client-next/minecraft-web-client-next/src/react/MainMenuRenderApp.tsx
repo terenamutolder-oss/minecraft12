@@ -7,7 +7,6 @@ import { openGithub } from '../utils'
 import { setLoadingScreenStatus } from '../appStatus'
 import { openFilePicker, copyFilesAsync, mkdirRecursive, openWorldDirectory, removeFileRecursiveAsync } from '../browserfs'
 
-import { hadModsActivated } from '../clientMods'
 import MainMenu from './MainMenu'
 import { withInjectableUi } from './extendableSystem'
 
@@ -77,9 +76,9 @@ let disableAnimation = false
 const MainMenuRenderAppBase = () => {
   const haveModals = useSnapshot(activeModalStack).length
   const { gameLoaded, fsReady, appConfig, singleplayerAvailable } = useSnapshot(miscUiState)
-  const { state: hadModsActivatedState } = useSnapshot(hadModsActivated)
-
-  const noDisplay = haveModals || gameLoaded || !fsReady || !hadModsActivatedState
+  // Do not wait for autostart mods: appStartup still runs and loadBackend awaits it before the renderer,
+  // so the menu can appear as soon as storage is ready (avoids a long blank + video wait when mods are slow).
+  const noDisplay = haveModals || gameLoaded || !fsReady
 
   useEffect(() => {
     if (noDisplay && fsReady) disableAnimation = true
