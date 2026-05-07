@@ -81,6 +81,25 @@ const writeText = (text) => {
   displayClientChat(text)
 }
 
+/** Named phases → Minecraft day time ticks (0–24000). Server advances time when doDaylightCycle is on. */
+const SET_TIME_ALIASES: Record<string, number> = {
+  morning: 1000,
+  day: 6000,
+  afternoon: 11000,
+  night: 13000,
+  midnight: 18000,
+  'mid night': 18000,
+}
+
+const setTimeFromAlias = (argRaw: string): number | undefined => {
+  const arg = argRaw.trim().toLowerCase()
+  if (!arg) return undefined
+  if (/^\d+$/.test(arg)) {
+    return parseInt(arg, 10) % 24000
+  }
+  return SET_TIME_ALIASES[arg]
+}
+
 export const commands: Array<{
   command: string[],
   alwaysAvailable?: boolean,
@@ -138,14 +157,38 @@ export const commands: Array<{
     invoke () {
       getThreeJsRendererMethods()?.downloadMesherLog()
     }
+  },
+  {
+    command: ['/set'],
+    invoke (args) {
+      if (args[0]?.toLowerCase() !== 'time') {
+        writeText('Usage: /set time <morning | day | afternoon | night | midnight | 0-24000>')
+        return
+      }
+      const rest = args.slice(1).join(' ').trim()
+      if (!rest) {
+        writeText('Usage: /set time <morning | day | afternoon | night | midnight | 0-24000>')
+        return
+      }
+      const ticks = setTimeFromAlias(rest)
+      if (ticks === undefined) {
+        writeText(`Unknown time “${rest}”. Try: morning, day, afternoon, night, midnight, or a number.`)
+        return
+      }
+      bot.chat(`/time set ${ticks}`)
+    }
   }
 ]
 //@ts-format-ignore-endregion
 
-export const getBuiltinCommandsList = () => commands.filter(command => command.alwaysAvailable || miscUiState.singleplayer).flatMap(command => command.command)
+export const getBuiltinCommandsList = () => {
+  const base = commands.filter(command => command.alwaysAvailable || miscUiState.singleplayer).flatMap(command => command.command)
+  return miscUiState.singleplayer ? [...base, '/set time'] : base
+}
 
 export const tryHandleBuiltinCommand = (message: string) => {
-  const [userCommand, ...args] = message.split(' ')
+  const trimmed = message.trim()
+  const [userCommand, ...args] = trimmed.split(/\s+/)
 
   for (const command of commands.filter(command => command.alwaysAvailable || miscUiState.singleplayer)) {
     if (command.command.includes(userCommand)) {
