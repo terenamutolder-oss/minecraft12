@@ -27,6 +27,7 @@ import { Duplex } from 'stream'
 import './scaleInterface'
 
 import { options } from './optionsStorage'
+import { getLocalPlayerUsername } from './playerAvatar'
 import './reactUi'
 import { lockUrl, onBotCreate } from './controls'
 import './dragndrop'
@@ -140,7 +141,7 @@ const loadSingleplayer = (serverOverrides = {}, flattenedServerOverrides = {}, c
   }, {})
   void connect({
     singleplayer: true,
-    username: options.localUsername,
+    username: getLocalPlayerUsername(),
     serverOverrides,
     serverOverridesFlat: {
       ...flattenedServerOverrides,

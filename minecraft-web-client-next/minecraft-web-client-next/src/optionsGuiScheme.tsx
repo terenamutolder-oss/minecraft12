@@ -129,6 +129,12 @@ export const guiOptionsScheme: {
   ],
   main: [
     {
+      playerAvatarPreset: {
+        text: 'Player avatar',
+        tooltip: 'Singleplayer look: skin is loaded like Minecraft for that name. Pick Custom and set “Local username” in All Settings to use any name. Re-enter the world to apply.',
+      },
+    },
+    {
       fov: {
         min: 30,
         max: 110,

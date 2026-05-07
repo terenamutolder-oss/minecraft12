@@ -7,6 +7,8 @@ export const defaultOptions = {
   mouseRawInput: true,
   autoExitFullscreen: false,
   localUsername: 'wanderer',
+  /** Preset character for singleplayer skin; use `custom` with Local username below. */
+  playerAvatarPreset: 'wanderer' as 'wanderer' | 'steve' | 'alex' | 'jeb' | 'dinnerbone' | 'notch' | 'custom',
   mouseSensX: 50,
   mouseSensY: -1,
   chatWidth: 320,
@@ -275,6 +277,17 @@ export const optionsMeta: Partial<Record<keyof typeof defaultOptions, OptionMeta
       ['all', 'All'],
       ['no-buffers', 'No Buffers']
     ]
+  },
+  playerAvatarPreset: {
+    possibleValues: [
+      ['wanderer', 'Wanderer'],
+      ['steve', 'Steve'],
+      ['alex', 'Alex'],
+      ['jeb', 'jeb_'],
+      ['dinnerbone', 'Dinnerbone'],
+      ['notch', 'Notch'],
+      ['custom', 'Custom name…'],
+    ],
   },
   // Custom string inputs (will use showInputsModal)
   localUsername: {

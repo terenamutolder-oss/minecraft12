@@ -5,6 +5,7 @@ import { proxy } from 'valtio'
 import { gzip } from 'node-gzip'
 import { versionToNumber } from 'renderer/viewer/common/utils'
 import { options } from './optionsStorage'
+import { getLocalPlayerUsername } from './playerAvatar'
 import { nameToMcOfflineUUID, disconnect } from './flyingSquidUtils'
 import { existsViaStats, forceCachedDataPaths, forceRedirectPaths, mkdirRecursive } from './browserfs'
 import { isMajorVersionGreater } from './utils'
@@ -103,7 +104,7 @@ export const loadSave = async (root = '/world', connectOptions?: Partial<Connect
       if (!version) return
     }
 
-    const playerUuid = nameToMcOfflineUUID(options.localUsername)
+    const playerUuid = nameToMcOfflineUUID(getLocalPlayerUsername())
     const playerDatPath = `${root}/playerdata/${playerUuid}.dat`
     const playerDataOverride = dataRaw.Player
     if (playerDataOverride) {
