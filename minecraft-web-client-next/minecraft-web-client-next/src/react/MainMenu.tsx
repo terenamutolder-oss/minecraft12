@@ -3,7 +3,9 @@ import { openURL } from 'renderer/viewer/lib/simpleUtils'
 import { useSnapshot } from 'valtio'
 import { haveDirectoryPicker } from '../utils'
 import { ConnectOptions } from '../connect'
-import { miscUiState } from '../globalState'
+import { miscUiState, openOptionsMenu } from '../globalState'
+import { options } from '../optionsStorage'
+import { isMobile } from 'renderer/viewer/lib/simpleUtils'
 import {
   isRemoteSplashText,
   loadRemoteSplashText,
@@ -57,6 +59,7 @@ const MainMenuBase = ({
   singleplayerAvailable = true,
 }: Props) => {
   const { appConfig } = useSnapshot(miscUiState)
+  const { alwaysShowMobileControls } = useSnapshot(options)
 
   const splashText = useMemo(() => {
     const cachedText = getCachedSplashText()
@@ -194,6 +197,34 @@ const MainMenuBase = ({
         >
           Options
         </Button>
+        <div style={{ display: 'flex', gap: 4, justifyContent: 'space-between', width: '100%' }}>
+          <ButtonWithTooltip
+            style={{ flex: 1 }}
+            initialTooltip={{
+              content: 'Joystick, touch buttons, movement type, and “always show” touch UI',
+              placement: 'top',
+            }}
+            onClick={() => openOptionsMenu('controls')}
+          >
+            Touch settings
+          </ButtonWithTooltip>
+          <ButtonWithTooltip
+            style={{ flex: 1 }}
+            initialTooltip={{
+              content: alwaysShowMobileControls
+                ? 'On-screen controls stay visible even with a mouse or trackpad'
+                : isMobile()
+                  ? 'Auto: on-screen controls for this phone or tablet (detected)'
+                  : 'Turn on to show on-screen controls on this device',
+              placement: 'top',
+            }}
+            onClick={() => {
+              options.alwaysShowMobileControls = !options.alwaysShowMobileControls
+            }}
+          >
+            {alwaysShowMobileControls ? 'Touch UI: on' : isMobile() ? 'Touch UI: auto' : 'Touch UI: off'}
+          </ButtonWithTooltip>
+        </div>
         <div className={styles['menu-row']}>
           <PauseLinkButtons />
         </div>

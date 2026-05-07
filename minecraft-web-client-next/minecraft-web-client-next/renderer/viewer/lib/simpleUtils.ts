@@ -17,8 +17,21 @@ export function openURL (url, newTab = true) {
   }
 }
 
+/**
+ * Phones, tablets, iPad (including iPadOS “desktop” Safari), Android, and other coarse-pointer primary devices.
+ * iPadOS 13+ often omits “Mobile” in the UA and may report MacIntel + touch points.
+ */
 export const isMobile = () => {
-  return window.matchMedia('(pointer: coarse)').matches || navigator.userAgent.includes('Mobile')
+  if (typeof window === 'undefined') return false
+  if (window.matchMedia('(pointer: coarse)').matches) return true
+  const ua = navigator.userAgent
+  if (/Mobile|Android|iPhone|iPod|IEMobile|Opera Mini/i.test(ua)) return true
+  if (/iPad/i.test(ua)) return true
+  const platform = navigator.platform ?? ''
+  if (platform === 'MacIntel' && navigator.maxTouchPoints > 1) return true
+  const uaData = (navigator as Navigator & { userAgentData?: { mobile?: boolean } }).userAgentData
+  if (uaData?.mobile === true) return true
+  return false
 }
 
 export function chunkPos (pos: { x: number, z: number }) {

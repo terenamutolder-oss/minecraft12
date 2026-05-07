@@ -409,7 +409,8 @@ export const guiOptionsScheme: {
         return <Category>Touch Controls</Category>
       },
       alwaysShowMobileControls: {
-        text: 'Always Mobile Controls',
+        text: 'Always On-Screen Controls',
+        tooltip: 'Keep touch joystick and buttons visible even with a mouse. Phones, iPads, and tablets turn touch UI on automatically when this is off.',
       },
       touchButtonsSize: {
         min: 40,
