@@ -1,15 +1,9 @@
 {
   "$schema": "https://openapi.vercel.sh/vercel.json",
   "framework": null,
-  "installCommand": "cd minecraft-web-client-next/minecraft-web-client-next && corepack enable && corepack prepare pnpm@10.32.1 --activate && pnpm install",
-  "buildCommand": "cd minecraft-web-client-next/minecraft-web-client-next && pnpm run build",
+  "installCommand": "npm install",
+  "buildCommand": "cd minecraft-web-client-next/minecraft-web-client-next && corepack enable && corepack prepare pnpm@10.32.1 --activate && pnpm install && pnpm run build",
   "outputDirectory": "minecraft-web-client-next/minecraft-web-client-next/dist",
-  "rewrites": [
-    {
-      "source": "/(.*)",
-      "destination": "/index.html"
-    }
-  ],
   "headers": [
     {
       "source": "/(.*)",

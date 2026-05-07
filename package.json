@@ -1,0 +1,5 @@
+{
+  "name": "minecraft12-repo-root",
+  "private": true,
+  "description": "Vercel builds the app in minecraft-web-client-next/minecraft-web-client-next; this file exists so the repo root has a valid npm project."
+}
